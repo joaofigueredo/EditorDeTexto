@@ -115,6 +115,7 @@
             abrirToolStripMenuItem.Name = "abrirToolStripMenuItem";
             abrirToolStripMenuItem.Size = new Size(224, 26);
             abrirToolStripMenuItem.Text = "Abrir";
+            abrirToolStripMenuItem.Click += abrirToolStripMenuItem_Click;
             // 
             // imprimirToolStripMenuItem
             // 
@@ -139,6 +140,7 @@
             sairToolStripMenuItem.Name = "sairToolStripMenuItem";
             sairToolStripMenuItem.Size = new Size(224, 26);
             sairToolStripMenuItem.Text = "Sair";
+            sairToolStripMenuItem.Click += sairToolStripMenuItem_Click;
             // 
             // editarToolStripMenuItem
             // 
@@ -257,6 +259,7 @@
             btn_abrir.Name = "btn_abrir";
             btn_abrir.Size = new Size(29, 24);
             btn_abrir.Text = "Abrir";
+            btn_abrir.Click += btn_abrir_Click;
             // 
             // btn_salvar
             // 
@@ -371,7 +374,8 @@
             // 
             // saveFileDialog1
             // 
-            saveFileDialog1.DefaultExt = "txt";
+            saveFileDialog1.DefaultExt = "TXT";
+            saveFileDialog1.Filter = "(*.TXT)|*.TXT";
             // 
             // printDialog1
             // 
