@@ -20,7 +20,7 @@ namespace EditorDeTexto
 
         private void btn_negrito_Click(object sender, EventArgs e)
         {
-
+            Negrito();
         }
 
         private void Novo()
@@ -40,6 +40,10 @@ namespace EditorDeTexto
 
         private void novoToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (richTextBox1.Text != "")
+            {
+                Salvar();
+            }
             Novo();
         }
 
@@ -121,7 +125,7 @@ namespace EditorDeTexto
 
         private void sairToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(richTextBox1.Text != "")
+            if (richTextBox1.Text != "")
             {
                 Salvar();
                 Application.Exit();
@@ -130,6 +134,216 @@ namespace EditorDeTexto
             {
                 Application.Exit();
             }
+        }
+
+        private void Copiar()
+        {
+            if (richTextBox1.SelectionLength > 0)
+            {
+                richTextBox1.Copy();
+            }
+        }
+
+        private void btn_copiar_Click(object sender, EventArgs e)
+        {
+            Copiar();
+        }
+
+        private void copiarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Copiar();
+        }
+
+        private void Colar()
+        {
+            richTextBox1.Paste();
+        }
+
+        private void btn_colar_Click(object sender, EventArgs e)
+        {
+            Colar();
+        }
+
+        private void colarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Colar();
+        }
+
+        private void Negrito()
+        {
+            string nomeDaFonte = null;
+            float tamanhoDaFonte = 0;
+            nomeDaFonte = richTextBox1.Font.Name;
+            tamanhoDaFonte = richTextBox1.Font.Size;
+            bool n, i, s = false;
+            n = richTextBox1.SelectionFont.Bold;
+            i = richTextBox1.SelectionFont.Italic;
+            s = richTextBox1.SelectionFont.Underline;
+
+            richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Regular);
+
+            if (n == false)
+            {
+                if (i == true && s == true)
+                {
+                    richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Bold | FontStyle.Italic| FontStyle.Underline);
+                }
+                else if(i == false && s == true) 
+                {
+                    richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Bold | FontStyle.Underline);
+                }
+                else if (i == true && s == false)
+                {
+                    richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Bold | FontStyle.Italic);
+                }
+                else if (i == false && s == false)
+                {
+                    richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Bold);
+                }
+            }
+            else
+            {
+                if (i == true && s == true)
+                {
+                    richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Italic | FontStyle.Underline);
+                }
+                else if (i == false && s == true)
+                {
+                    richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Underline);
+                }
+                else if (i == true && s == false)
+                {
+                    richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Italic);
+                }
+            }
+        }
+
+
+        private void Italico()
+        {
+            string nomeDaFonte = null;
+            float tamanhoDaFonte = 0;
+            nomeDaFonte = richTextBox1.Font.Name;
+            tamanhoDaFonte = richTextBox1.Font.Size;
+            bool n, i, s = false;
+            n = richTextBox1.SelectionFont.Bold;
+            i = richTextBox1.SelectionFont.Italic;
+            s = richTextBox1.SelectionFont.Underline;
+
+            richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Regular);
+
+            if (i == false)
+            {
+                if (n == true && s == true)
+                {
+                    richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Bold | FontStyle.Italic | FontStyle.Underline);
+                }
+                else if (n == false && s == true)
+                {
+                    richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Italic | FontStyle.Underline);
+                }
+                else if (n == true && s == false)
+                {
+                    richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Italic | FontStyle.Bold);
+                }
+                else if (n == false && s == false)
+                {
+                    richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Italic);
+                }
+            }
+            else
+            {
+                if (n == true && s == true)
+                {
+                    richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Bold | FontStyle.Underline);
+                }
+                else if (n == false && s == true)
+                {
+                    richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Underline);
+                }
+                else if (n == true && s == false)
+                {
+                    richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Bold);
+                }
+            }
+        }
+
+        private void Sublinhar()
+        {
+
+            string nomeDaFonte = null;
+            float tamanhoDaFonte = 0;
+            nomeDaFonte = richTextBox1.Font.Name;
+            tamanhoDaFonte = richTextBox1.Font.Size;
+            bool n, i, s = false;
+            n = richTextBox1.SelectionFont.Bold;
+            i = richTextBox1.SelectionFont.Italic;
+            s = richTextBox1.SelectionFont.Underline;
+
+            richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Regular);
+
+            if (s == false)
+            {
+                if (i == true && n == true)
+                {
+                    richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Bold | FontStyle.Italic | FontStyle.Underline);
+                }
+                else if (i == false && n == true)
+                {
+                    richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Bold | FontStyle.Underline);
+                }
+                else if (i == true && n == false)
+                {
+                    richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Underline | FontStyle.Italic);
+                }
+                else if (i == false && n == false)
+                {
+                    richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Underline);
+                }
+            }
+            else
+            {
+                if (i == true && n == true)
+                {
+                    richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Italic | FontStyle.Bold);
+                }
+                else if (i == false && n == true)
+                {
+                    richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Bold);
+                }
+                else if (i == true && n == false)
+                {
+                    richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Italic);
+                }
+            }
+        }
+ 
+
+        private void negritoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Negrito();
+        }
+
+        private void itálicoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Italico();
+        }
+
+        private void btn_italico_Click(object sender, EventArgs e)
+        {
+            Italico();
+        }
+
+        
+
+        private void btn_sublinhado_Click(object sender, EventArgs e)
+        {
+            Sublinhar();
+        }
+
+        private void sublinhadoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Sublinhar();
         }
     }
 }
