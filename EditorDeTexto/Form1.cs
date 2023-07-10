@@ -2,7 +2,7 @@ namespace EditorDeTexto
 {
     public partial class Form1 : Form
     {
-        StreamReader leitura = null;
+        StringReader leitura = null;
         public Form1()
         {
             InitializeComponent();
@@ -13,10 +13,7 @@ namespace EditorDeTexto
 
         }
 
-        private void rToolStripMenuItem_Click(object sender, EventArgs e)
-        {
 
-        }
 
         private void btn_negrito_Click(object sender, EventArgs e)
         {
@@ -169,12 +166,15 @@ namespace EditorDeTexto
             Colar();
         }
 
+
+
+
         private void Negrito()
         {
             string nomeDaFonte = null;
             float tamanhoDaFonte = 0;
-            nomeDaFonte = richTextBox1.Font.Name;
-            tamanhoDaFonte = richTextBox1.Font.Size;
+            nomeDaFonte = richTextBox1.SelectionFont.Name;
+            tamanhoDaFonte = richTextBox1.SelectionFont.Size;
             bool n, i, s = false;
             n = richTextBox1.SelectionFont.Bold;
             i = richTextBox1.SelectionFont.Italic;
@@ -186,9 +186,9 @@ namespace EditorDeTexto
             {
                 if (i == true && s == true)
                 {
-                    richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Bold | FontStyle.Italic| FontStyle.Underline);
+                    richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Bold | FontStyle.Italic | FontStyle.Underline);
                 }
-                else if(i == false && s == true) 
+                else if (i == false && s == true)
                 {
                     richTextBox1.SelectionFont = new Font(nomeDaFonte, tamanhoDaFonte, FontStyle.Bold | FontStyle.Underline);
                 }
@@ -223,8 +223,9 @@ namespace EditorDeTexto
         {
             string nomeDaFonte = null;
             float tamanhoDaFonte = 0;
-            nomeDaFonte = richTextBox1.Font.Name;
-            tamanhoDaFonte = richTextBox1.Font.Size;
+            nomeDaFonte = richTextBox1.SelectionFont.Name;
+
+            tamanhoDaFonte = richTextBox1.SelectionFont.Size;
             bool n, i, s = false;
             n = richTextBox1.SelectionFont.Bold;
             i = richTextBox1.SelectionFont.Italic;
@@ -273,8 +274,8 @@ namespace EditorDeTexto
 
             string nomeDaFonte = null;
             float tamanhoDaFonte = 0;
-            nomeDaFonte = richTextBox1.Font.Name;
-            tamanhoDaFonte = richTextBox1.Font.Size;
+            nomeDaFonte = richTextBox1.SelectionFont.Name;
+            tamanhoDaFonte = richTextBox1.SelectionFont.Size;
             bool n, i, s = false;
             n = richTextBox1.SelectionFont.Bold;
             i = richTextBox1.SelectionFont.Italic;
@@ -317,7 +318,7 @@ namespace EditorDeTexto
                 }
             }
         }
- 
+
 
         private void negritoToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -334,7 +335,7 @@ namespace EditorDeTexto
             Italico();
         }
 
-        
+
 
         private void btn_sublinhado_Click(object sender, EventArgs e)
         {
@@ -344,6 +345,153 @@ namespace EditorDeTexto
         private void sublinhadoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Sublinhar();
+        }
+
+        private void alinharEsquerda()
+        {
+            richTextBox1.SelectionAlignment = HorizontalAlignment.Left;
+        }
+
+        private void alinharDireita()
+        {
+            richTextBox1.SelectionAlignment = HorizontalAlignment.Right;
+        }
+
+        private void alinharCentro()
+        {
+            richTextBox1.SelectionAlignment = HorizontalAlignment.Center;
+        }
+
+        private void btn_esquerda_Click(object sender, EventArgs e)
+        {
+            alinharEsquerda();
+        }
+
+        private void btn_centro_Click(object sender, EventArgs e)
+        {
+            alinharCentro();
+        }
+
+        private void bnt_direita_Click(object sender, EventArgs e)
+        {
+            alinharDireita();
+        }
+
+        private void centralizarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            alinharCentro();
+        }
+
+        private void esquerdaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            alinharEsquerda();
+        }
+
+        private void direitaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            alinharDireita();
+        }
+
+        private void imprimir()
+        {
+            printDialog1.Document = printDocument1;
+            string texto = this.richTextBox1.Text;
+            leitura = new StringReader(texto);
+            //saber se o botão ok foi pressionado
+            if (printDialog1.ShowDialog() == DialogResult.OK)
+            {
+                this.printDocument1.Print();
+            }
+        }
+
+        private void imprimirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            imprimir();
+        }
+
+        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+            float linhasPagina = 0;
+            float posicaoY = 0;
+            int cont = 0;
+            float margemEsquerda = e.MarginBounds.Left - 50;
+            float margemSuperior = e.MarginBounds.Top - 50;
+
+            if (margemEsquerda < 5)
+            {
+                margemEsquerda = 20;
+            }
+
+            if (margemSuperior < 5)
+            {
+                margemEsquerda = 20;
+            }
+
+            string linha = null;
+            Font fonte = this.richTextBox1.Font;
+            SolidBrush pincel = new SolidBrush(Color.Black);
+            //calcular o numero de linhas por paginas
+            linhasPagina = e.MarginBounds.Height / fonte.GetHeight(e.Graphics);
+            linha = leitura.ReadLine();
+            while (cont < linhasPagina)
+            {
+                //desenhar a linha
+                posicaoY = (margemSuperior + (cont * fonte.GetHeight(e.Graphics)));
+                e.Graphics.DrawString(linha, fonte, pincel, margemEsquerda, posicaoY, new StringFormat());
+                cont++;
+
+                linha = leitura.ReadLine();
+            }
+            //Saber se terá mais paginas ou não
+            if (linha != null)
+            {
+                e.HasMorePages = true;
+            }
+            else
+            {
+                e.HasMorePages = false;
+            }
+            pincel.Dispose();
+        }
+
+        private void btn_imprimir_Click(object sender, EventArgs e)
+        {
+            imprimir();
+        }
+
+        private void toolStripTextBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void desfazerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (richTextBox1.CanUndo)
+            {
+                richTextBox1.Undo();
+
+            }
+        }
+
+        private void rToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (richTextBox1.CanRedo)
+            {
+                richTextBox1.Redo();
+            }
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            string nomeFonte = tb_nomeFonte.Text;
+            float tamanhoFonte = float.Parse(tb_tamanhoFonte.Text);
+            richTextBox1.SelectionFont = new Font(nomeFonte, tamanhoFonte, FontStyle.Regular);
+
+            tb_nomeFonte.Clear();
+            tb_nomeFonte.Focus();
+            tb_tamanhoFonte.Clear();
+            tb_tamanhoFonte.Focus();
+
         }
     }
 }
